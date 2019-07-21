@@ -1,23 +1,481 @@
-<!doctype html>
+	<!doctype html>
 
-<html lang="en">
-<head>
-  <meta charset="utf-8">
+	<!--
 
-  <title>The HTML5 Herald</title>
-  <meta name="description" content="The HTML5 Herald">
-  <meta name="author" content="SitePoint">
+	Tommorow 
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+	1) Add the question
+	2) Give a preamble of the visualization and a general explanation. Hide the visualization
+	3) Create a new div text item that will give the numbers for each entity and some information
+	4) On every button click
+		a) Change the preamble
+		b) Give some information and commentary on each decade
+		c) on mouse over show the numbers
 
-</head>
+	5) Add projected tax based on the trend
 
-<body>
-  <script src="js/scripts.js"></script>
+	-->
 
-  <h1> This is a test </h1>
+	<html>
+	<script src='https://d3js.org/d3.v5.min.js'></script>
+	<script src="https://rawgit.com/susielu/d3-annotation/master/d3-annotation.min.js"></script>
+	<style> 
 
-</body>
-</html>
+	rect {fill: lightblue; stroke: black; }
 
+	/* Citation: generated from https://www.bestcssbuttongenerator.com */
+
+	.myButton {
+		-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+		-webkit-box-shadow:inset 0px 1px 3px 0px #91b8b3;
+		box-shadow:inset 0px 1px 3px 0px #91b8b3;
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #768d87), color-stop(1, #6c7c7c));
+		background:-moz-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+		background:-webkit-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+		background:-o-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+		background:-ms-linear-gradient(top, #768d87 5%, #6c7c7c 100%);
+		background:linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#768d87', endColorstr='#6c7c7c',GradientType=0);
+		background-color:#768d87;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border-radius:5px;
+		border:1px solid #566963;
+		display:inline-block;
+		cursor:pointer;
+		color:#ffffff;
+		font-family:Arial;
+		font-size:15px;
+		font-weight:bold;
+		padding:11px 23px;
+		text-decoration:none;
+		text-shadow:0px -1px 0px #2b665e;
+	}
+	.myButton:hover {
+		background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #6c7c7c), color-stop(1, #768d87));
+		background:-moz-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+		background:-webkit-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+		background:-o-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+		background:-ms-linear-gradient(top, #6c7c7c 5%, #768d87 100%);
+		background:linear-gradient(to bottom, #6c7c7c 5%, #768d87 100%);
+		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#6c7c7c', endColorstr='#768d87',GradientType=0);
+		background-color:#6c7c7c;
+	}
+	.myButton:active {
+		position:relative;
+		top:1px;
+	}
+
+	.parent{
+			display: grid;
+			grid-template-columns: auto;
+			grid-template-rows: auto auto auto auto;
+
+	}
+
+	.header{
+		height:100px;
+		color: slategrey;
+	}
+
+	.scene_choice{
+		height:50px;
+	}
+
+	.scene_explanation{
+		height:100px;
+		color: darkslategrey;
+	}
+
+	.scene_individual_explanation{
+		color: darkslategrey;
+	}
+
+	.scene_row{
+		display: grid;
+		grid-template-columns: 50% 50%;
+		grid-template-rows: auto;
+	}
+
+	.scene{
+		/*border: 1px solid grey;*/
+		align: left;
+	}
+
+	.scene_detail_text{
+		align:left;
+		border: 1px solid #1C6EA4;
+		border-radius: 40px 36px 40px 40px;
+		height: 400px;
+		padding: 5px;
+	}
+
+	</style>
+	<body>
+
+	<div class ="parent">
+
+	<div class="header">
+	<h2> The tax man cometh. So, who's paying ?</h2>
+	</div>
+
+	<div class="scene_choice">
+
+	<a href="#" class="myButton" onclick="updateScene(1)">Taxes 1960</a>
+	<a href="#" class="myButton" onclick="updateScene(2)">Taxes 1980</a>
+	<a href="#" class="myButton" onclick="updateScene(3)">Taxes 2000</a>
+	<a href="#" class="myButton" onclick="updateScene(4)">Taxes 2018</a>
+	<a href="#" class="myButton" onclick="updateScene(5)">Forecast 2030</a>
+
+	</div>
+
+<!--
+
+In principle, we all have to pay taxes. That includes individuals and corporations. The graph attempts to answer the question of how much each source provides in federal taxes. It’s clear that individuals pay the lion’s share (which doesn’t include social security contributions), and the second-largest source is corporations.
+
+The third-largest source is tariffs on imported goods and taxes levied at production. Now, who precisely “pays” these types of taxes is more difficult to determine, as it depends on the price elasticities involved. Let’s say a tariff increases or a new tariff is imposed. Does the seller absorb it or does the seller roll it over to consumers through a higher price tag? The answer depends on how sensitive each party is to price changes.
+
+The smallest source of taxes is the entities abroad category. These entities may be expats filing their income taxes or businesses with some ties to the U.S. that must pay taxes on their activities.
+
+What are the overall trends? It’s clear that taxes from individuals have had a tendency to increase. Taxes from tariffs and such have tended to decrease, although they may soon go back up. Corporate income taxes have also decreased, proportionally, and are now very close to being overtaken by taxes from tariffs and such. Note also that corporate income taxes dip significantly during recessions: These taxes are mostly based on profits, and profits don’t usually rise during downturns. Finally, taxes from foreign entities are small but have recently started to become noticeable.
+-->
+	<div class="scene_explanation">
+		
+		<p>
+		We all pay taxes, atleast many of us do. But who pays the most and has that changed over time.We attempt to answer if the share of federal taxes have changed over the decades from the 1960's to the present. And what do we expect the federal tax share to be in the year 2030. Use the buttons above to explore and find out.
+		</p> 
+
+		<p>
+
+		</p>
+
+		<p>
+			
+		</p>
+
+	</div>
+
+	<div class="scene_row">
+	<div class = "scene">
+		<svg width=500px height=500px id="svgtag">
+
+		  <defs>
+		    <radialGradient id="myGradient">
+		      <stop offset="10%" stop-color="gold" />
+		      <stop offset="95%" stop-color="red" />
+		    </radialGradient>
+		  </defs>
+
+		</svg>
+	</div>
+	<div class="scene_detail_text">
+		<p>There are four entities for the purposes of federal taxation.</p>
+
+		<p><b>Individuals</b> are people like you and me, who pay the largest share of federal taxes. Note that this does not include social security taxes.</p>
+
+		<p><b>Corporations</b> are US based business entities. These typically pay the second largest share of federal taxes. </p>
+
+		<p><b>Imports</b> are tarriffs on goods coming into the US.</p>
+
+
+		<p><b>Foreign Entities</b> are businesses or expats who earn outside the US but are still subject to federal tax law. These have the smallest share.</p>
+
+		<p>So, what is the trend ? The trend is that the share of individual taxes is increasing, the taxes on corporations are decreasing over the decades.</p>
+
+	</div>
+	</div>
+
+
+
+	</div>
+
+	<!-- Script -->
+	<script>
+
+	categories = 
+	["Individuals","Imports","Corporates","Foreign"]
+
+	year1960 = [42.132,12.872,18.88,0.096]
+
+	year1980 = [238.273,27.612,67.004,1.48]
+
+	year2000 = [976.598,86.123,202.205,7.146]
+
+	year2018 = [1583.939,149.482,149.029,26.336]
+
+	year2030 = [1600,155.482,155.0,35]
+
+	dataindices= Array.from(Array(categories.length).keys())
+
+	width = 500
+	height = 500
+
+	// annotations
+ 	const annotations = [
+		  {
+		    note: {
+		      label: "Here is the annotation label",
+		      title: "Annotation title"
+		    },
+		    x: 100,
+		    y: 100,
+		    dy: 100,
+		    dx: 100
+		  }
+	]
+
+	const makeAnnotations = d3.annotation().annotations(annotations)
+
+	//update scene
+	function updateScene(scene_num){
+
+		d3.select("#svgtag").selectAll("*").remove()
+
+		d3.select(".scene")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height)
+			.attr("id", "svgtag")
+
+		d3.select("#svgtag")			
+			.append("defs")
+			.append("radialGradient")
+			.attr("id", "myGradient")
+
+		d3.select("#myGradient")			
+			.append("stop")
+			.attr("offset", "10%")
+			.attr("stop-color", "white")
+
+		d3.select("#myGradient")		
+			.append("stop")
+			.attr("offset", "95%")
+			.attr("stop-color", "black")
+
+		// target decade
+
+		if (scene_num == 1) {
+			decade = year1960;
+
+			txt0 = "The Sixties dominated by the Vietnam War, Civil Rights Protests, the 60s also saw the assassinations of US President John F Kennedy and Martin Luther King, Cuban Missile Crisis, and finally ended on a good note when the first man is landed on the moon. (Citation: thepeoplehistory.com)"
+
+			txt1 = "In the 1960 it appeared that corporations were paying their fair share. There was very little contributions from foreign entities. The individuals contributed the largest share to the tax burden."
+
+			d3.select(".scene_detail_text").selectAll("*").remove()
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt1)
+
+		}
+		
+		if (scene_num == 2) {
+			decade = year1980;
+
+			txt0 = "The Seventies saw massive inflation world wide much of it caused by the Oil Crisis in the Middle East, Digital Technology is seen for the first time in consumer products including the first calculator, as technology advanced the range and function of home appliances improved, The Vietnam War ends and the Cold War gets Colder. The Eighties see the collapse of traditional communism and the ending of the Cold War, Microsoft, IBM, Intel and Apple begin to have an impact on all our lives as small Computers becomes cheaper and more wide spread including home and Business, Famine in Ethiopia causes major music stars to band together to raise money and awareness, and the early beginnings of mobile phones as technology gets cheaper and smaller. (Citation: thepeoplehistory.com)"
+
+			txt1 = "In the 1980's it appeared that contributions from corporations were trending down. There was very little contributions from foreign entities. The contribution from imports has fallen."
+
+			d3.select(".scene_detail_text").selectAll("*").remove()
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt1)
+
+		}
+		
+		if (scene_num == 3) {
+			decade = year2000;
+
+			txt0 = "The year 2000 was the subject of Y2K concerns, which were fears that computers would not shift from 1999 to 2000 correctly. Nigella Lawson publishes 'How To Be A Domestic Goddess', following the success of her TV show Nigella Bites (Citation: thepeoplehistory.com)"
+
+			txt1 = "In the 2000's it appeared that contributions from corporations fell further. The contribution from imports has fallen from the previous decade. There was very little contributions from foreign entities."
+
+			d3.select(".scene_detail_text").selectAll("*").remove()
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt1)
+
+		}
+
+		if (scene_num == 4) {
+			decade = year2018;
+
+			txt0 = "This decade began amid a global financial crisis and subsequent international recession dating from the late 2000s. Austerity policies particularly affected Portugal, Ireland, Greece, and Spain. The Internet of things saw substantial growth during the 2010s due to advancements in wireless networking devices, mobile telephony, and cloud computing.  (Citation: thepeoplehistory.com)"
+
+			txt1 = "In the decade ending 2018 it appeared that contributions from corporations fell exponentially faster. The contribution from imports stabilized. There was some contributions from foreign entities."
+
+			d3.select(".scene_detail_text").selectAll("*").remove()
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt1)
+
+		}
+
+		if (scene_num == 5) {
+
+			decade = year2030
+			
+			txt0 = "Looking forward to 2030's what should we expect ? We ran the numbers through a simple predictive model and this is our forcast"
+
+			txt1 = "Corporations will actually pay a little more tax. The downward trend for corporate taxation will be reversed. Individuals will pay only a bit more tax than in previous decades."
+
+			d3.select(".scene_detail_text").selectAll("*").remove()
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(txt1)
+		}
+
+		 
+
+
+		// scale functions 
+		xs = d3.scaleLinear().domain([Math.min.apply(Math, dataindices), Math.max.apply(Math, dataindices)]).range([40, width - 20]);
+		ys = d3.scaleLinear().domain([Math.min.apply(Math, decade),Math.max.apply(Math, decade)]).range([height - 40, 20]);
+
+	 nodes = []
+    for(i =0; i < dataindices.length; i++){
+
+      nodes.push({
+        'index': dataindices[1],
+        'ys': ys[decade[i]],
+        'value': decade[i],
+        'category': categories[i],
+        'radius' : (decade[i] / Math.max.apply(Math, decade)) * 50
+
+      })
+    }
+
+   
+   // force layout citation: https://www.d3indepth.com/force-layout/
+   var simulation = d3.forceSimulation(nodes)
+    .force('charge', d3.forceManyBody().strength(-30))
+    .force('center', d3.forceCenter(width / 2, height / 2))
+    .force('collision', d3.forceCollide().radius(function(d) {
+      return d.radius
+      }))
+
+    .on('tick', ticked);
+
+    function ticked() {
+
+    var u = d3.select('svg')
+      .selectAll('circle')
+      .data(nodes)
+
+    u.enter()
+      .append('circle')
+      .merge(u)
+      .attr('r',  function(d) {
+        return d.radius
+      })
+      .attr('cx', function(d) {
+        return d.x
+      })
+      .attr('cy', function(d) {
+        return d.y
+      })
+      .attr("fill", "url('#myGradient')")
+      .attr("stroke", "black")
+      .attr("id", function(d){return d.category + "_circle"})
+
+   var uu = d3.select('svg')
+      .selectAll('text')
+      .data(nodes)
+
+    uu.enter()
+      .append('text')
+      .merge(uu)
+      .attr('x', function(d) {
+        return d.x - 50
+      })
+      .attr('y', function(d) {
+        return d.y 
+      })
+      .attr("font-size", "small")
+      .attr("text-anchor", "end")
+      .text(function(d,i){return d.category;})
+
+    uu.exit().remove()
+  }
+
+
+
+
+d3.select("#example1")
+  .append("g")
+  .call(makeAnnotations)
+
+
+	}
+
+
+	function hideAllText(d, i){
+
+		for(i = 0; i < dataindices.length; i++){
+			textid = "text" + i
+			document.getElementById(textid).style.visibility = "hidden";
+		}
+	}
+
+	function showAllText(d, i){
+
+		for(i = 0; i < dataindices.length; i++){
+			textid = "text" + i
+			document.getElementById(textid).style.visibility = "visible";
+		}
+	}	
+
+	function handleMouseOver(d, i){
+
+		hideAllText(d,i)
+
+		textid = "text" + i
+		document.getElementById(textid).style.fontSize = "large";
+		document.getElementById(textid).style.visibility = "visible";
+
+		circleid = "circle" + i
+		document.getElementById(circleid).style.r = radius * 3;
+
+	}
+
+	function handleMouseOut(d, i){
+
+		showAllText(d,i)
+
+		textid = "text" + i
+		document.getElementById(textid).style.fontSize = "xx-small";
+
+		circleid = "circle" + i
+		document.getElementById(circleid).style.r = radius
+
+	}
+
+	</script>
+
+	</body>
+	</html>
 

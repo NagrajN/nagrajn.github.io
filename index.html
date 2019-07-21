@@ -210,8 +210,9 @@
 
 		d3.select("#svgtag").selectAll("*").remove()
 
-		d3.select(".scene")
-			.append("svg")
+		d3.select("#svgtag")
+			//.append("svg")
+			.append("g")
 			.attr("width", width)
 			.attr("height", height)
 			.attr("id", "svgtag")
@@ -434,7 +435,8 @@
 		xs = d3.scaleLinear().domain([Math.min.apply(Math, dataindices), Math.max.apply(Math, dataindices)]).range([40, width - 20]);
 		ys = d3.scaleLinear().domain([Math.min.apply(Math, decade),Math.max.apply(Math, decade)]).range([height - 40, 20]);
 
-	 nodes = []
+	nodes = []
+
     for(i =0; i < dataindices.length; i++){
 
       nodes.push({
@@ -459,7 +461,8 @@
 
     function ticked() {
 
-    var u = d3.select('svg')
+    u = d3.select('svg')
+      .select("g")
       .selectAll('circle')
       .data(nodes)
 
@@ -481,7 +484,8 @@
       .on("mouseover", handleMouseOver)
       .on("mouseout", handleMouseOut)
 
-   var uu = d3.select('svg')
+   uu = d3.select('svg')
+   	  .select("g")
       .selectAll('text')
       .data(nodes)
 
@@ -489,19 +493,21 @@
       .append('text')
       .merge(uu)
       .attr('x', function(d) {
-        return d.x - 100
+        return d.x + 100
       })
       .attr('y', function(d) {
-        return d.y - 50
+        return d.y + 50
       })
-      .attr("font-size", "small")
-      .attr("text-anchor", "end")
       .text(function(d,i){return d.category;})
       .attr("id", function(d,i){return d.category + "_text"})
+      .attr("text-anchor", "begin")
+      //.attr("textLength", "100%")
+      .attr("font-size", "small")
+      .attr("fill", "purple")
 
-    uu.exit().remove()
 
-   var mm = d3.select('svg')
+   mm = d3.select('svg')
+   	  .select("g")
       .selectAll('line')
       .data(nodes)
 
@@ -525,25 +531,31 @@
       .attr('stroke-linecap', "round")
 	  .attr('stroke-dasharray', "1, 5")
 
+	 u.exit().remove() 
+	 uu.exit().remove()
      mm.exit().remove()
 
+	//axis
+
+	x_axis = d3.axisBottom().scale(xs);
+
+	y_axis = d3.axisRight().scale(ys);
+
+	d3.select("svg")
+	//.select("g")
+	//.attr("transform", "translate(25,0)")
+	.call(x_axis.ticks(10))
+
+	
+	d3.select("svg")
+	//.select("g")
+	.attr("transform", "translate(50,0)")
+	.call(y_axis.ticks(10))
+	
+
+
 
   }
-
-  //annotation
-
- annotations = [
-  {
-    note: {
-      label: "Here is the annotation label",
-      title: "Annotation title"
-    },
-    x: 0,
-    y: 0,
-    dy: 0,
-    dx: 0
-  }
-]
 
 	}
 

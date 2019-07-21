@@ -23,7 +23,7 @@
 
 	rect {fill: lightblue; stroke: black; }
 
-	/* Citation: generated from https://www.bestcssbuttongenerator.com */
+	/* Citation: mybutton generated from https://www.bestcssbuttongenerator.com */
 
 	.myButton {
 		-moz-box-shadow:inset 0px 1px 3px 0px #91b8b3;
@@ -69,8 +69,7 @@
 	.parent{
 			display: grid;
 			grid-template-columns: auto;
-			grid-template-rows: auto auto auto auto;
-
+			grid-template-rows: auto auto auto auto auto;
 	}
 
 	.header{
@@ -91,6 +90,11 @@
 		color: darkslategrey;
 	}
 
+	.contribution_in_billions{
+		color: purple;
+		height: 20px;
+	}
+
 	.scene_row{
 		display: grid;
 		grid-template-columns: 50% 50%;
@@ -106,7 +110,7 @@
 		align:left;
 		border: 1px solid #1C6EA4;
 		border-radius: 40px 36px 40px 40px;
-		height: 400px;
+		height: 350px;
 		padding: 5px;
 	}
 
@@ -129,30 +133,16 @@
 
 	</div>
 
-<!--
-
-In principle, we all have to pay taxes. That includes individuals and corporations. The graph attempts to answer the question of how much each source provides in federal taxes. It’s clear that individuals pay the lion’s share (which doesn’t include social security contributions), and the second-largest source is corporations.
-
-The third-largest source is tariffs on imported goods and taxes levied at production. Now, who precisely “pays” these types of taxes is more difficult to determine, as it depends on the price elasticities involved. Let’s say a tariff increases or a new tariff is imposed. Does the seller absorb it or does the seller roll it over to consumers through a higher price tag? The answer depends on how sensitive each party is to price changes.
-
-The smallest source of taxes is the entities abroad category. These entities may be expats filing their income taxes or businesses with some ties to the U.S. that must pay taxes on their activities.
-
-What are the overall trends? It’s clear that taxes from individuals have had a tendency to increase. Taxes from tariffs and such have tended to decrease, although they may soon go back up. Corporate income taxes have also decreased, proportionally, and are now very close to being overtaken by taxes from tariffs and such. Note also that corporate income taxes dip significantly during recessions: These taxes are mostly based on profits, and profits don’t usually rise during downturns. Finally, taxes from foreign entities are small but have recently started to become noticeable.
--->
 	<div class="scene_explanation">
 		
 		<p>
-		We all pay taxes, atleast many of us do. But who pays the most and has that changed over time.We attempt to answer if the share of federal taxes have changed over the decades from the 1960's to the present. And what do we expect the federal tax share to be in the year 2030. Use the buttons above to explore and find out.
+		We all pay taxes. The question we want to answer is, what is the share of federal taxes & what has changed over the decades. 
 		</p> 
 
-		<p>
+	</div>
 
-		</p>
-
-		<p>
-			
-		</p>
-
+	<div class="contribution_in_billions">
+		
 	</div>
 
 	<div class="scene_row">
@@ -169,9 +159,10 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 		</svg>
 	</div>
 	<div class="scene_detail_text">
-		<p>There are four entities for the purposes of federal taxation.</p>
 
-		<p><b>Individuals</b> are people like you and me, who pay the largest share of federal taxes. Note that this does not include social security taxes.</p>
+		<p><b>There are four entities for the purposes of federal taxation:</b></p>
+
+		<p><b>Individuals</b> are working people who pay the largest share of federal taxes. Note that this does not include social security taxes.</p>
 
 		<p><b>Corporations</b> are US based business entities. These typically pay the second largest share of federal taxes. </p>
 
@@ -180,12 +171,9 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 
 		<p><b>Foreign Entities</b> are businesses or expats who earn outside the US but are still subject to federal tax law. These have the smallest share.</p>
 
-		<p>So, what is the trend ? The trend is that the share of individual taxes is increasing, the taxes on corporations are decreasing over the decades.</p>
 
 	</div>
 	</div>
-
-
 
 	</div>
 
@@ -210,21 +198,7 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 	width = 500
 	height = 500
 
-	// annotations
- 	const annotations = [
-		  {
-		    note: {
-		      label: "Here is the annotation label",
-		      title: "Annotation title"
-		    },
-		    x: 100,
-		    y: 100,
-		    dy: 100,
-		    dx: 100
-		  }
-	]
-
-	const makeAnnotations = d3.annotation().annotations(annotations)
+	hover_prompt = "Hover over the spheres to see the taxes in billion of dollars"
 
 	//update scene
 	function updateScene(scene_num){
@@ -257,9 +231,9 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 		if (scene_num == 1) {
 			decade = year1960;
 
-			txt0 = "The Sixties dominated by the Vietnam War, Civil Rights Protests, the 60s also saw the assassinations of US President John F Kennedy and Martin Luther King, Cuban Missile Crisis, and finally ended on a good note when the first man is landed on the moon. (Citation: thepeoplehistory.com)"
+			txt1 = "The Sixties dominated by the Vietnam War, Civil Rights Protests, the 60s also saw the assassinations of US President John F Kennedy and Martin Luther King, Cuban Missile Crisis, and finally ended on a good note when the first man is landed on the moon. (Citation: thepeoplehistory.com)"
 
-			txt1 = "In the 1960 it appeared that corporations were paying their fair share. There was very little contributions from foreign entities. The individuals contributed the largest share to the tax burden."
+			txt0 = "In the 1960 it appeared that corporations were paying their fair share. There was very little contributions from foreign entities. The individuals contributed the largest share to the tax burden."
 
 			d3.select(".scene_detail_text").selectAll("*").remove()
 
@@ -270,15 +244,19 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 			d3.select(".scene_detail_text")
 			.append("p")
 			.html(txt1)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(hover_prompt)
 
 		}
 		
 		if (scene_num == 2) {
 			decade = year1980;
 
-			txt0 = "The Seventies saw massive inflation world wide much of it caused by the Oil Crisis in the Middle East, Digital Technology is seen for the first time in consumer products including the first calculator, as technology advanced the range and function of home appliances improved, The Vietnam War ends and the Cold War gets Colder. The Eighties see the collapse of traditional communism and the ending of the Cold War, Microsoft, IBM, Intel and Apple begin to have an impact on all our lives as small Computers becomes cheaper and more wide spread including home and Business, Famine in Ethiopia causes major music stars to band together to raise money and awareness, and the early beginnings of mobile phones as technology gets cheaper and smaller. (Citation: thepeoplehistory.com)"
+			txt1 = "The Seventies saw massive inflation world wide much of it caused by the Oil Crisis in the Middle East, Digital Technology is seen for the first time in consumer products including the first calculator, as technology advanced the range and function of home appliances improved, The Vietnam War ends and the Cold War gets Colder. The Eighties see the collapse of traditional communism and the ending of the Cold War, Microsoft, IBM, Intel and Apple begin to have an impact on all our lives as small Computers becomes cheaper and more wide spread including home and Business, Famine in Ethiopia causes major music stars to band together to raise money and awareness, and the early beginnings of mobile phones as technology gets cheaper and smaller. (Citation: thepeoplehistory.com)"
 
-			txt1 = "In the 1980's it appeared that contributions from corporations were trending down. There was very little contributions from foreign entities. The contribution from imports has fallen."
+			txt0 = "In the 1980's it appeared that contributions from corporations were trending down. There was very little contributions from foreign entities. The contribution from imports has fallen."
 
 			d3.select(".scene_detail_text").selectAll("*").remove()
 
@@ -289,15 +267,19 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 			d3.select(".scene_detail_text")
 			.append("p")
 			.html(txt1)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(hover_prompt)
 
 		}
 		
 		if (scene_num == 3) {
 			decade = year2000;
 
-			txt0 = "The year 2000 was the subject of Y2K concerns, which were fears that computers would not shift from 1999 to 2000 correctly. Nigella Lawson publishes 'How To Be A Domestic Goddess', following the success of her TV show Nigella Bites (Citation: thepeoplehistory.com)"
+			txt1 = "The year 2000 was the subject of Y2K concerns, which were fears that computers would not shift from 1999 to 2000 correctly. Nigella Lawson publishes 'How To Be A Domestic Goddess', following the success of her TV show Nigella Bites (Citation: thepeoplehistory.com)"
 
-			txt1 = "In the 2000's it appeared that contributions from corporations fell further. The contribution from imports has fallen from the previous decade. There was very little contributions from foreign entities."
+			txt0 = "In the 2000's it appeared that contributions from corporations fell further. The contribution from imports has fallen from the previous decade. There was very little contributions from foreign entities."
 
 			d3.select(".scene_detail_text").selectAll("*").remove()
 
@@ -308,15 +290,19 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 			d3.select(".scene_detail_text")
 			.append("p")
 			.html(txt1)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(hover_prompt)
 
 		}
 
 		if (scene_num == 4) {
 			decade = year2018;
 
-			txt0 = "This decade began amid a global financial crisis and subsequent international recession dating from the late 2000s. Austerity policies particularly affected Portugal, Ireland, Greece, and Spain. The Internet of things saw substantial growth during the 2010s due to advancements in wireless networking devices, mobile telephony, and cloud computing.  (Citation: thepeoplehistory.com)"
+			txt1 = "This decade began amid a global financial crisis and subsequent international recession dating from the late 2000s. Austerity policies particularly affected Portugal, Ireland, Greece, and Spain. The Internet of things saw substantial growth during the 2010s due to advancements in wireless networking devices, mobile telephony, and cloud computing.  (Citation: thepeoplehistory.com)"
 
-			txt1 = "In the decade ending 2018 it appeared that contributions from corporations fell exponentially faster. The contribution from imports stabilized. There was some contributions from foreign entities."
+			txt0 = "In the decade ending 2018 it appeared that contributions from corporations fell exponentially faster. The contribution from imports stabilized. There was some contributions from foreign entities."
 
 			d3.select(".scene_detail_text").selectAll("*").remove()
 
@@ -327,6 +313,10 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 			d3.select(".scene_detail_text")
 			.append("p")
 			.html(txt1)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(hover_prompt)
 
 		}
 
@@ -347,9 +337,11 @@ What are the overall trends? It’s clear that taxes from individuals have had a
 			d3.select(".scene_detail_text")
 			.append("p")
 			.html(txt1)
-		}
 
-		 
+			d3.select(".scene_detail_text")
+			.append("p")
+			.html(hover_prompt)
+		}
 
 
 		// scale functions 
@@ -401,6 +393,8 @@ What are the overall trends? It’s clear that taxes from individuals have had a
       .attr("fill", "url('#myGradient')")
       .attr("stroke", "black")
       .attr("id", function(d){return d.category + "_circle"})
+      .on("mouseover", handleMouseOver)
+      .on("mouseout", handleMouseOut)
 
    var uu = d3.select('svg')
       .selectAll('text')
@@ -423,54 +417,18 @@ What are the overall trends? It’s clear that taxes from individuals have had a
   }
 
 
-
-
-d3.select("#example1")
-  .append("g")
-  .call(makeAnnotations)
-
-
 	}
-
-
-	function hideAllText(d, i){
-
-		for(i = 0; i < dataindices.length; i++){
-			textid = "text" + i
-			document.getElementById(textid).style.visibility = "hidden";
-		}
-	}
-
-	function showAllText(d, i){
-
-		for(i = 0; i < dataindices.length; i++){
-			textid = "text" + i
-			document.getElementById(textid).style.visibility = "visible";
-		}
-	}	
 
 	function handleMouseOver(d, i){
 
-		hideAllText(d,i)
-
-		textid = "text" + i
-		document.getElementById(textid).style.fontSize = "large";
-		document.getElementById(textid).style.visibility = "visible";
-
-		circleid = "circle" + i
-		document.getElementById(circleid).style.r = radius * 3;
+		txt = d.category + " contributed " + d.value + " in Billions of US Dollars."
+		d3.select(".contribution_in_billions").text(txt);
 
 	}
 
 	function handleMouseOut(d, i){
 
-		showAllText(d,i)
-
-		textid = "text" + i
-		document.getElementById(textid).style.fontSize = "xx-small";
-
-		circleid = "circle" + i
-		document.getElementById(circleid).style.r = radius
+		d3.select(".contribution_in_billions").text("");
 
 	}
 

@@ -395,7 +395,7 @@
 
 			decade = year2030
 			
-			txt1 = "Looking forward to 2030's the theme should be  ... driverless cars, smart homes, genetically engineered pets, AI board of directors and 3D printed liver transplant. (Citation: 5 predictions for what life will be like in 2030 from weforum.org)."
+			txt1 = "Looking forward to 2030's... driverless cars, smart homes, genetically engineered CRISPR pets, AI board of directors and 3D printed liver transplant... (Citation: 5 predictions for what life will be like in 2030 from weforum.org)."
 
 			txt0 = "Using a predictive model, Corporations as a group are forecasted to pay a little more tax therby reversing the downward since the 60's. Individuals as a group are forecasted to pay only a bit more tax than in previous decades."
 
@@ -544,13 +544,13 @@
 	d3.select("svg")
 	//.select("g")
 	//.attr("transform", "translate(25,0)")
-	.call(x_axis.ticks(10))
+	.call(x_axis.ticks(10, "s"))
 
 	
 	d3.select("svg")
 	//.select("g")
 	.attr("transform", "translate(50,0)")
-	.call(y_axis.ticks(10))
+	.call(y_axis.ticks(10, "s"))
 	
 
 

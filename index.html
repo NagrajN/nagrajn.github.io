@@ -108,10 +108,11 @@
 
 	.scene_detail_text{
 		align:left;
-		border: 1px solid #1C6EA4;
+		border: 1px none #1C6EA4;
 		border-radius: 40px 36px 40px 40px;
 		height: 350px;
 		padding: 5px;
+		color: darkslategrey;
 	}
 
 	</style>
@@ -120,7 +121,7 @@
 	<div class ="parent">
 
 	<div class="header">
-	<h2> The tax man cometh. So, who's paying ?</h2>
+	<h2> The Tax Man Cometh. Who Is Paying & How Much ?</h2>
 	</div>
 
 	<div class="scene_choice">
@@ -136,7 +137,8 @@
 	<div class="scene_explanation">
 		
 		<p>
-		We all pay taxes. The question we want to answer is, what is the share of federal taxes & what has changed over the decades. 
+		We all pay taxes. There are four taxation entities – Individuals in the US, Corporations in the US, Import Tariffs on Goods coming into the US and Foreign Entities like expats. The question we want to answer is, what is the share of federal taxes for the taxation entities & has it changed over time ? Can we forecast this into the future ?
+
 		</p> 
 
 	</div>
@@ -162,14 +164,17 @@
 
 		<p><b>There are four entities for the purposes of federal taxation:</b></p>
 
-		<p><b>Individuals</b> are working people who pay the largest share of federal taxes. Note that this does not include social security taxes.</p>
+		<p><b>Individuals:</b></p>
+		<p>Working people who pay the largest share of federal taxes. Note that this does not include social security taxes.</p>
 
-		<p><b>Corporations</b> are US based business entities. These typically pay the second largest share of federal taxes. </p>
+		<p><b>Corporations:</b></p>
+		<p>US based business entities. These typically pay the second largest share of federal taxes. </p>
 
-		<p><b>Imports</b> are tarriffs on goods coming into the US.</p>
+		<p><b>Import Tarriffs:</b></p>
+		<p>Duties on goods coming into the US.</p>
 
-
-		<p><b>Foreign Entities</b> are businesses or expats who earn outside the US but are still subject to federal tax law. These have the smallest share.</p>
+		<p><b>Foreign Entities</b></p>
+		<p>Businesses or expats who earn outside the US but are still subject to federal tax law. These have the smallest share.</p>
 
 
 	</div>
@@ -198,7 +203,7 @@
 	width = 500
 	height = 500
 
-	hover_prompt = "Hover over the spheres to see the taxes in billion of dollars"
+	hover_prompt = "<i>Hover over the spheres to see the taxes in billion of dollars.</i>"
 
 	//update scene
 	function updateScene(scene_num){
@@ -239,7 +244,24 @@
 
 			d3.select(".scene_detail_text")
 			.append("p")
+			.style("font-size", "xx-large")
+			.style("color", "darkslategrey")
+			.html("The Past - Taxes In 1960's")
+
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Analysis:")
+
+			d3.select(".scene_detail_text")
+			.append("p")
 			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Historical Context:")
 
 			d3.select(".scene_detail_text")
 			.append("p")
@@ -254,7 +276,7 @@
 		if (scene_num == 2) {
 			decade = year1980;
 
-			txt1 = "The Seventies saw massive inflation world wide much of it caused by the Oil Crisis in the Middle East, Digital Technology is seen for the first time in consumer products including the first calculator, as technology advanced the range and function of home appliances improved, The Vietnam War ends and the Cold War gets Colder. The Eighties see the collapse of traditional communism and the ending of the Cold War, Microsoft, IBM, Intel and Apple begin to have an impact on all our lives as small Computers becomes cheaper and more wide spread including home and Business, Famine in Ethiopia causes major music stars to band together to raise money and awareness, and the early beginnings of mobile phones as technology gets cheaper and smaller. (Citation: thepeoplehistory.com)"
+			txt1 = "The Seventies saw massive inflation world wide much of it caused by the Oil Crisis in the Middle East, Digital Technology is seen for the first time in consumer products, The Vietnam War ends. The Eighties see the collapse of traditional communism. The early beginnings of mobile phones as technology gets cheaper and smaller. (Citation: thepeoplehistory.com)"
 
 			txt0 = "In the 1980's it appeared that contributions from corporations were trending down. There was very little contributions from foreign entities. The contribution from imports has fallen."
 
@@ -262,7 +284,23 @@
 
 			d3.select(".scene_detail_text")
 			.append("p")
+			.style("font-size", "xx-large")
+			.style("color", "darkslategrey")
+			.html("The Past - Taxes In 1980's")
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Analysis:")
+
+			d3.select(".scene_detail_text")
+			.append("p")
 			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Historical Context:")
 
 			d3.select(".scene_detail_text")
 			.append("p")
@@ -285,7 +323,23 @@
 
 			d3.select(".scene_detail_text")
 			.append("p")
+			.style("font-size", "xx-large")
+			.style("color", "darkslategrey")
+			.html("The Past - Taxes In 2000's")
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Analysis:")
+
+			d3.select(".scene_detail_text")
+			.append("p")
 			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Historical Context:")
 
 			d3.select(".scene_detail_text")
 			.append("p")
@@ -300,7 +354,7 @@
 		if (scene_num == 4) {
 			decade = year2018;
 
-			txt1 = "This decade began amid a global financial crisis and subsequent international recession dating from the late 2000s. Austerity policies particularly affected Portugal, Ireland, Greece, and Spain. The Internet of things saw substantial growth during the 2010s due to advancements in wireless networking devices, mobile telephony, and cloud computing.  (Citation: thepeoplehistory.com)"
+			txt1 = "This decade began amid a global financial crisis and subsequent international recession dating from the late 2000s. Austerity policies particularly affected Portugal, Ireland, Greece, and Spain. The Internet of things saw substantial growth.  (Citation: thepeoplehistory.com)"
 
 			txt0 = "In the decade ending 2018 it appeared that contributions from corporations fell exponentially faster. The contribution from imports stabilized. There was some contributions from foreign entities."
 
@@ -308,7 +362,23 @@
 
 			d3.select(".scene_detail_text")
 			.append("p")
+			.style("font-size", "xx-large")
+			.style("color", "darkslategrey")
+			.html("The Present - Taxes In 2018's")
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Analysis:")
+
+			d3.select(".scene_detail_text")
+			.append("p")
 			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Historical Context:")
 
 			d3.select(".scene_detail_text")
 			.append("p")
@@ -324,15 +394,31 @@
 
 			decade = year2030
 			
-			txt0 = "Looking forward to 2030's what should we expect ? We ran the numbers through a simple predictive model and this is our forcast"
+			txt1 = "Looking forward to 2030's what should we expect ? We ran the numbers through a simple predictive model and this is our forcast"
 
-			txt1 = "Corporations will actually pay a little more tax. The downward trend for corporate taxation will be reversed. Individuals will pay only a bit more tax than in previous decades."
+			txt0 = "Corporations as a group are forecasted to pay a little more tax therby reversing the downward since the 60's. Individuals as a group are forecasted to pay only a bit more tax than in previous decades."
 
 			d3.select(".scene_detail_text").selectAll("*").remove()
 
 			d3.select(".scene_detail_text")
 			.append("p")
+			.style("font-size", "xx-large")
+			.style("color", "darkslategrey")
+			.html("The Future - Taxes In 2030's")
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Analysis:")
+
+			d3.select(".scene_detail_text")
+			.append("p")
 			.html(txt0)
+
+			d3.select(".scene_detail_text")
+			.append("p")
+			.append("b")
+			.html("Historical Context:")
 
 			d3.select(".scene_detail_text")
 			.append("p")
@@ -360,7 +446,6 @@
 
       })
     }
-
    
    // force layout citation: https://www.d3indepth.com/force-layout/
    var simulation = d3.forceSimulation(nodes)
@@ -404,18 +489,61 @@
       .append('text')
       .merge(uu)
       .attr('x', function(d) {
-        return d.x - 50
+        return d.x - 100
       })
       .attr('y', function(d) {
-        return d.y 
+        return d.y - 50
       })
       .attr("font-size", "small")
       .attr("text-anchor", "end")
       .text(function(d,i){return d.category;})
+      .attr("id", function(d,i){return d.category + "_text"})
 
     uu.exit().remove()
+
+   var mm = d3.select('svg')
+      .selectAll('line')
+      .data(nodes)
+
+    mm.enter()
+      .append('line')
+      .merge(mm)
+      .attr('x1', function(d) {
+        return d.x
+      })
+      .attr('y1', function(d) {
+        return d.y 
+      })
+      .attr('x2', function(d) {
+        return d3.select("#" + d.category + "_text").attr("x") 
+      })
+      .attr('y2', function(d) {
+        return d3.select("#" + d.category + "_text").attr("y") 
+      })
+      .attr('stroke-width', 1)
+      .attr('stroke', "purple")
+      .attr('stroke-linecap', "round")
+	  .attr('stroke-dasharray', "1, 5")
+
+     mm.exit().remove()
+
+
   }
 
+  //annotation
+
+ annotations = [
+  {
+    note: {
+      label: "Here is the annotation label",
+      title: "Annotation title"
+    },
+    x: 0,
+    y: 0,
+    dy: 0,
+    dx: 0
+  }
+]
 
 	}
 

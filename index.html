@@ -449,7 +449,6 @@
       })
     }
    
-   // force layout citation: https://www.d3indepth.com/force-layout/
    var simulation = d3.forceSimulation(nodes)
     .force('charge', d3.forceManyBody().strength(-30))
     .force('center', d3.forceCenter(width / 2, height / 2))
@@ -498,7 +497,7 @@
       .attr('y', function(d) {
         return d.y + 50
       })
-      .text(function(d,i){return d.category;})
+      .text(function(d,i){return d.category + " [" + Math.round(d.value)  + "B]";})
       .attr("id", function(d,i){return d.category + "_text"})
       .attr("text-anchor", "begin")
       //.attr("textLength", "100%")
